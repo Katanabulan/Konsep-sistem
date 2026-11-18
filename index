@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="id" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Parkir IoT Knowledge Base - Panduan Konsep & Sistem Ketua Tim</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --brand-primary: #1e40af;
+            --brand-secondary: #0ea5e9;
+            --brand-accent: #f59e0b;
+            --brand-dark: #0f172a;
+            --brand-surface: #ffffff;
+            --brand-bg: #f8fafc;
+            --border-color: #e2e8f0;
+        }
+
+        [data-bs-theme="dark"] {
+            --brand-surface: #1e293b;
+            --brand-bg: #0b1120;
+            --border-color: #334155;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--brand-bg);
+            color: var(--bs-body-color);
+            line-height: 1.6;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Hero Header */
+        .hero-banner {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0369a1 100%);
+            color: white;
+            border-bottom: 3px solid #38bdf8;
+        }
+
+        /* Navigation Pills */
+        .nav-custom {
+            background: var(--brand-surface);
+            border-radius: 1rem;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .nav-custom .nav-link {
+            color: #64748b;
+            font-weight: 600;
+            border-radius: 0.75rem;
+            padding: 0.65rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        .nav-custom .nav-link:hover {
+            color: var(--brand-primary);
+            background: rgba(30, 64, 175, 0.08);
+        }
+        .nav-custom .nav-link.active {
+            background: var(--brand-primary);
+            color: white !important;
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.35);
+        }
+
+        /* Cards */
+        .custom-card {
+            background: var(--brand-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .custom-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Architecture Nodes */
+        .arch-node {
+            border-radius: 0.85rem;
+            padding: 1.25rem;
+            border: 1px solid var(--border-color);
+            background: var(--brand-surface);
+            position: relative;
+        }
+        .arch-badge {
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        /* Flow Step */
+        .flow-step {
+            position: relative;
+            padding-left: 2.2rem;
+            margin-bottom: 1.5rem;
+        }
+        .flow-step::before {
+            content: '';
+            position: absolute;
+            left: 0.75rem;
+            top: 2rem;
+            bottom: -1rem;
+            width: 2px;
+            background: #cbd5e1;
+        }
+        .flow-step:last-child::before {
+            display: none;
+        }
+        .step-num {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.75rem;
+            height: 1.75rem;
+            border-radius: 50%;
+            background: var(--brand-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        /* Interactive QA accordion */
+        .qa-card {
+            cursor: pointer;
+            border-left: 4px solid var(--brand-secondary) !important;
+        }
+        .qa-answer {
+            display: none;
+        }
+        .qa-card.open .qa-answer {
+            display: block;
+        }
+        .qa-card.open .qa-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Pin Badge */
+        .badge-pin {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            padding: 0.35rem 0.6rem;
+            border-radius: 0.4rem;
+        }
+
+        /* Code block */
+        pre code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+        }
+
+        @media print {
+            .no-print, .nav-custom, #searchBox, .theme-toggle {
+                display: none !important;
+            }
+            .tab-pane {
+                display: block !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                page-break-after: always;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            .custom-card {
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+            }
+            .qa-answer {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO HEADER -->
+    <header class="hero-banner py-4 px-3 px-md-5 mb-4 shadow-sm">
+        <div class="container-fluid max-w-7xl">
+            <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+                <div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <span class="badge bg-warning text-dark fw-bold px-2.5 py-1.5 rounded-pill font-mono">
+                            <i class="bi bi-mortarboard-fill me-1"></i>TEAM LEAD BRIEFING
+                        </span>
+                        <span class="badge bg-white bg-opacity-20 text-white border border-white border-opacity-25 px-2.5 py-1.5 rounded-pill">
+                            Sigma Boys &bull; E-Parkir Industrial IoT
+                        </span>
+                    </div>
+                    <h2 class="fw-extrabold mb-1 tracking-tight">Portal Pembelajaran & Konsep Sistem E-Parkir IoT</h2>
+                    <p class="mb-0 text-white-50 small">
+                        Panduan komprehensif konsep sistem, alur IoT end-to-end, bedah kode firmware ESP8266, integrasi printer POS-58, serta strategi tanya-jawab sidang.
+                    </p>
+                </div>
+                <div class="d-flex align-items-center gap-2 flex-wrap no-print">
+                    <button class="btn btn-outline-light btn-sm rounded-pill px-3 d-flex align-items-center gap-1.5" onclick="window.print()">
+                        <i class="bi bi-printer"></i>
+                        <span>Cetak Panduan / PDF</span>
+                    </button>
+                    <button class="btn btn-light btn-sm rounded-pill px-3 fw-bold text-dark d-flex align-items-center gap-1.5 shadow-sm" onclick="toggleDarkMode()">
+                        <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+                        <span id="themeText">Mode Gelap</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="container-fluid max-w-7xl px-3 px-md-5 pb-5">
+
+        <!-- STICKY NAVIGATION TABS -->
+        <nav class="nav-custom mb-4 sticky-top no-print d-flex flex-wrap gap-1" style="top: 15px; z-index: 1020;">
+            <ul class="nav nav-pills w-100 flex-column flex-md-row" id="pills-tab" role="tablist">
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100 active" id="tab-lead-btn" data-bs-toggle="pill" data-bs-target="#tab-lead" type="button" role="tab">
+                        <i class="bi bi-award-fill text-warning"></i>
+                        <span>1. Peran Ketua & Big Picture</span>
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="tab-hardware-btn" data-bs-toggle="pill" data-bs-target="#tab-hardware" type="button" role="tab">
+                        <i class="bi bi-cpu-fill text-info"></i>
+                        <span>2. Hardware & Pinout</span>
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="tab-firmware-btn" data-bs-toggle="pill" data-bs-target="#tab-firmware" type="button" role="tab">
+                        <i class="bi bi-code-slash text-success"></i>
+                        <span>3. Bedah Kode ESP8266</span>
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="tab-rest-btn" data-bs-toggle="pill" data-bs-target="#tab-rest" type="button" role="tab">
+                        <i class="bi bi-arrow-left-right text-primary"></i>
+                        <span>4. REST API & Printer</span>
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="tab-qa-btn" data-bs-toggle="pill" data-bs-target="#tab-qa" type="button" role="tab">
+                        <i class="bi bi-question-diamond-fill text-danger"></i>
+                        <span>5. Tanya-Jawab Sidang Dosen</span>
+                    </button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="tab-cheat-btn" data-bs-toggle="pill" data-bs-target="#tab-cheat" type="button" role="tab">
+                        <i class="bi bi-lightning-charge-fill text-warning"></i>
+                        <span>6. Cheatsheet 5 Menit</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- TAB CONTENT CONTAINER -->
+        <div class="tab-content" id="pills-tabContent">
+
+            <!-- ============================================================= -->
+            <!-- TAB 1: PERAN KETUA & BIG PICTURE ARCHITECTURE -->
+            <!-- ============================================================= -->
+            <div class="tab-pane fade show active" id="tab-lead" role="tabpanel">
+                
+                <!-- Introduction Banner -->
+                <div class="custom-card p-4 mb-4 border-start border-4 border-warning">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="bg-warning bg-opacity-10 text-warning p-3 rounded-4 fs-3">
+                            <i class="bi bi-person-badge-fill"></i>
+                        </div>
+                        <div>
+                            <h4 class="fw-bold mb-1">Pedoman Utama Sebagai Ketua Tim (Team Lead)</h4>
+                            <p class="text-muted small mb-0">
+                                Dosen penguji dan audiens tidak mengharapkan Anda menghafal titik-koma program, melainkan menuntut Anda menguasai <strong>alasan teknis pemilihan teknologi (*Design Decisions*)</strong>, <strong>alur perpindahan data (*Data Flow*)</strong>, dan <strong>keamanan sistem saat terjadi kendala (*Fault Tolerance*)</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3-TIER ARCHITECTURE CARD -->
+                <div class="custom-card p-4 mb-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+                        <h5 class="fw-bold mb-0 text-primary d-flex align-items-center gap-2">
+                            <i class="bi bi-layers-half"></i>
+                            <span>Arsitektur 3 Lapisan (End-to-End System Architecture)</span>
+                        </h5>
+                        <span class="badge bg-primary-subtle text-primary border">Konsep Desain</span>
+                    </div>
+
+                    <div class="row g-3">
+                        <!-- Layer 1 -->
+                        <div class="col-12 col-lg-4">
+                            <div class="arch-node h-100 border-primary border-opacity-50">
+                                <span class="badge bg-primary arch-badge mb-2">Lapisan 1 &bull; Edge Hardware</span>
+                                <h6 class="fw-bold text-dark mt-1">NodeMCU ESP8266 & Periferal</h6>
+                                <p class="text-muted small mb-2">Fokus pada akuisisi data sensor dan kontrol aktuator fisik di gerbang secara instan.</p>
+                                <ul class="small ps-3 text-secondary mb-0">
+                                    <li>MFRC522: Pembaca kartu RFID (SPI)</li>
+                                    <li>Dual Servo SG90: Palang masuk & keluar</li>
+                                    <li>LED 1-Pin Dual Color: Merah & Hijau</li>
+                                    <li>Buzzer Audio: Indikator akustik</li>
+                                    <li>Push Button: Permintaan tiket masuk fisik</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Layer 2 -->
+                        <div class="col-12 col-lg-4">
+                            <div class="arch-node h-100 border-info border-opacity-50">
+                                <span class="badge bg-info text-dark arch-badge mb-2">Lapisan 2 &bull; Jaringan & Transport</span>
+                                <h6 class="fw-bold text-dark mt-1">Wi-Fi Router & REST Protocol</h6>
+                                <p class="text-muted small mb-2">Penghubung data nirkabel kecepatan tinggi tanpa beban server perantara broker.</p>
+                                <ul class="small ps-3 text-secondary mb-0">
+                                    <li>SSID Router: <code class="text-primary font-mono">Day One</code></li>
+                                    <li>Protokol: HTTP 1.1 REST API (JSON payload)</li>
+                                    <li>Direct API (0ms latency dari browser ke ESP)</li>
+                                    <li>Auto Reconnect jika sinyal router drop</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Layer 3 -->
+                        <div class="col-12 col-lg-4">
+                            <div class="arch-node h-100 border-success border-opacity-50">
+                                <span class="badge bg-success arch-badge mb-2">Lapisan 3 &bull; Otak & Database</span>
+                                <h6 class="fw-bold text-dark mt-1">Laravel 11 & Printer Thermal</h6>
+                                <p class="text-muted small mb-2">Pengelola seluruh logika bisnis, kalkulasi tarif parkir, dan audit database.</p>
+                                <ul class="small ps-3 text-secondary mb-0">
+                                    <li>Database MySQL: User, Kartu, Log, Slot</li>
+                                    <li>Perhitungan tarif jam pro-rata</li>
+                                    <li>Web Admin & Pos Kasir Live Sync</li>
+                                    <li>Printer POS-58 USB Direct RAW byte stream</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2 OPERATIONAL USE CASES -->
+                <div class="row g-4 mb-4">
+                    <!-- Flow 1: Member RFID -->
+                    <div class="col-12 col-lg-6">
+                        <div class="custom-card p-4 h-100">
+                            <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+                                <h6 class="fw-bold mb-0 text-success d-flex align-items-center gap-2">
+                                    <i class="bi bi-credit-card-2-front-fill"></i>
+                                    <span>Alur A: Member Langganan (Kartu RFID)</span>
+                                </h6>
+                                <span class="badge bg-success-subtle text-success">Cashless</span>
+                            </div>
+
+                            <div class="flow-step">
+                                <div class="step-num">1</div>
+                                <h6 class="fw-bold small mb-1">Tap Masuk (Gate IN)</h6>
+                                <p class="text-muted small mb-0">Pengendara menempelkan kartu ke sensor RC522. ESP membaca UID Hex dan mengirim request HTTP POST ke Laravel.</p>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-num">2</div>
+                                <h6 class="fw-bold small mb-1">Validasi Otomatis Server</h6>
+                                <p class="text-muted small mb-0">Laravel mengecek status member & ketersediaan slot. Jika valid, slot berkurang 1, palang masuk terbuka 8 detik, lampu hijau menyala.</p>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-num">3</div>
+                                <h6 class="fw-bold small mb-1">Tap Keluar (Gate OUT) & Potong Saldo</h6>
+                                <p class="text-muted small mb-0">Pengendara men-tap di gate keluar. Durasi parkir dihitung (misal: 85 menit = 2 jam x Rp 2.000 = Rp 4.000). Saldo kartu langsung terpotong di database.</p>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-num">4</div>
+                                <h6 class="fw-bold small mb-1">Cetak Bukti Transaksi Lunas</h6>
+                                <p class="text-muted small mb-0">Palang keluar membuka, buzzer bip 2x, dan printer kasir otomatis mencetak struk bukti pembayaran 28 kolom.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flow 2: Tamu Karcis -->
+                    <div class="col-12 col-lg-6">
+                        <div class="custom-card p-4 h-100">
+                            <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+                                <h6 class="fw-bold mb-0 text-warning d-flex align-items-center gap-2">
+                                    <i class="bi bi-ticket-perforated-fill"></i>
+                                    <span>Alur B: Pengendara Umum (Karcis Barcode)</span>
+                                </h6>
+                                <span class="badge bg-warning-subtle text-warning">Karcis Tunai</span>
+                            </div>
+
+                            <div class="flow-step">
+                                <div class="step-num">1</div>
+                                <h6 class="fw-bold small mb-1">Tekan Tombol Karcis Masuk</h6>
+                                <p class="text-muted small mb-0">Pengendara tanpa kartu menekan tombol merah pada tiang gerbang masuk (Pin TX/GPIO1).</p>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-num">2</div>
+                                <h6 class="fw-bold small mb-1">Cetak Karcis & Palang Membuka</h6>
+                                <p class="text-muted small mb-0">ESP menembak <code class="font-mono">/api/ticket</code> ke Laravel. Server membuat kode tiket unik (misal: <code class="font-mono">TKT-261117-0028</code>) dan printer otomatis mengeluarkan karcis. Palang terbuka 10 detik.</p>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-num">3</div>
+                                <h6 class="fw-bold small mb-1">Penyerahan Karcis di Pos Kasir</h6>
+                                <p class="text-muted small mb-0">Saat keluar, pengendara menyerahkan karcis ke kasir. Petugas men-scan barcode atau klik tombol selesaikan di web monitoring pos kasir.</p>
+                            </div>
+                            <div class="flow-step">
+                                <div class="step-num">4</div>
+                                <h6 class="fw-bold small mb-1">Bayar Tunai & Buka Palang</h6>
+                                <p class="text-muted small mb-0">Setelah menerima uang tunai, petugas mengonfirmasi di sistem. Palang keluar terangkat otomatis dan struk pembayaran tercetak.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ============================================================= -->
+            <!-- TAB 2: HARDWARE & PINOUT MAPPING -->
+            <!-- ============================================================= -->
+            <div class="tab-pane fade" id="tab-hardware" role="tabpanel">
+                
+                <div class="custom-card p-4 mb-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+                        <h5 class="fw-bold mb-0 text-primary d-flex align-items-center gap-2">
+                            <i class="bi bi-diagram-3-fill"></i>
+                            <span>Tabel Pemetaan Pin Hardware (Pinout NodeMCU V3)</span>
+                        </h5>
+                        <span class="badge bg-secondary-subtle text-secondary font-mono">ESP-12E Board</span>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle border">
+                            <thead class="table-light font-mono small">
+                                <tr>
+                                    <th>Pin Board</th>
+                                    <th>GPIO ESP</th>
+                                    <th>Komponen Hardware</th>
+                                    <th>Jalur Komunikasi</th>
+                                    <th>Penjelasan Teknis & Catatan Penguji</th>
+                                </tr>
+                            </thead>
+                            <tbody class="small">
+                                <tr>
+                                    <td><span class="badge bg-primary font-mono badge-pin">D8</span></td>
+                                    <td><code>GPIO15</code></td>
+                                    <td><strong>RFID SDA (SS)</strong></td>
+                                    <td><span class="badge bg-info-subtle text-info border">SPI Slave Select</span></td>
+                                    <td>Wajib pull-down saat booting ESP8266 agar mode flash normal tidak terganggu.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-primary font-mono badge-pin">D5</span></td>
+                                    <td><code>GPIO14</code></td>
+                                    <td><strong>RFID SCK</strong></td>
+                                    <td><span class="badge bg-info-subtle text-info border">SPI Clock</span></td>
+                                    <td>Jalur detak sinkronisasi pengiriman data byte kartu.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-primary font-mono badge-pin">D7</span></td>
+                                    <td><code>GPIO13</code></td>
+                                    <td><strong>RFID MOSI</strong></td>
+                                    <td><span class="badge bg-info-subtle text-info border">SPI Data In</span></td>
+                                    <td>Master-Out-Slave-In (ESP mengirim perintah konfigurasi ke RC522).</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-primary font-mono badge-pin">D6</span></td>
+                                    <td><code>GPIO12</code></td>
+                                    <td><strong>RFID MISO</strong></td>
+                                    <td><span class="badge bg-info-subtle text-info border">SPI Data Out</span></td>
+                                    <td>Master-In-Slave-Out (RC522 mengirim data UID kartu ke ESP).</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-primary font-mono badge-pin">D0</span></td>
+                                    <td><code>GPIO16</code></td>
+                                    <td><strong>RFID RST</strong></td>
+                                    <td><span class="badge bg-secondary-subtle text-secondary border">Reset Line</span></td>
+                                    <td>Pin reset modul RC522 untuk proses auto-recovery jika sensor crash.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-success font-mono badge-pin">D1</span></td>
+                                    <td><code>GPIO5</code></td>
+                                    <td><strong>LED Gerbang Masuk</strong></td>
+                                    <td><span class="badge bg-warning-subtle text-warning border">Dual Polaritas</span></td>
+                                    <td>1 Pin 2 Warna: <code>LOW</code> = Merah (Tutup), <code>HIGH</code> = Hijau (Buka).</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-success font-mono badge-pin">D2</span></td>
+                                    <td><code>GPIO4</code></td>
+                                    <td><strong>LED Gerbang Keluar</strong></td>
+                                    <td><span class="badge bg-warning-subtle text-warning border">Dual Polaritas</span></td>
+                                    <td>1 Pin 2 Warna: <code>LOW</code> = Merah (Tutup), <code>HIGH</code> = Hijau (Buka).</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-warning text-dark font-mono badge-pin">D3</span></td>
+                                    <td><code>GPIO0</code></td>
+                                    <td><strong>Servo Palang Masuk</strong></td>
+                                    <td><span class="badge bg-danger-subtle text-danger border">PWM Signal</span></td>
+                                    <td>0° = Tutup mendatar, 90° = Terbuka tegak lurus (SG90 TowerPro).</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-warning text-dark font-mono badge-pin">D4</span></td>
+                                    <td><code>GPIO2</code></td>
+                                    <td><strong>Servo Palang Keluar</strong></td>
+                                    <td><span class="badge bg-danger-subtle text-danger border">PWM Signal</span></td>
+                                    <td>0° = Tutup mendatar, 90° = Terbuka tegak lurus (SG90 TowerPro).</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-danger font-mono badge-pin">RX</span></td>
+                                    <td><code>GPIO3</code></td>
+                                    <td><strong>Buzzer Audio</strong></td>
+                                    <td><span class="badge bg-light text-dark border">Digital Output</span></td>
+                                    <td>Active Buzzer dengan sinyal HIGH untuk bunyi dan LOW untuk senyap.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-secondary font-mono badge-pin">TX</span></td>
+                                    <td><code>GPIO1</code></td>
+                                    <td><strong>Tombol Karcis Masuk</strong></td>
+                                    <td><span class="badge bg-light text-dark border">Input Pullup</span></td>
+                                    <td>Push button terhubung ke GND. Saat ditekan bernilai LOW.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SPECIAL HARDWARE CIRCUIT TRICKS -->
+                <div class="row g-4 mb-4">
+                    <!-- LED Trick -->
+                    <div class="col-12 col-md-6">
+                        <div class="custom-card p-4 h-100">
+                            <h6 class="fw-bold text-dark d-flex align-items-center gap-2 mb-2">
+                                <i class="bi bi-lightbulb-fill text-warning"></i>
+                                <span>Trik Cerdas: 1 Pin Mengontrol 2 Lampu LED</span>
+                            </h6>
+                            <p class="small text-muted mb-3">
+                                Karena pin NodeMCU sangat terbatas, tim kami merancang skema perbedaan potensial arus dioda:
+                            </p>
+                            <div class="p-3 bg-light rounded-3 font-mono small border mb-3">
+                                <div>&bull; <strong>LED Merah (Stop):</strong> Anoda (+) ke <code>3.3V</code> &bull; Katoda (-) ke <code>D1</code></div>
+                                <div>&bull; <strong>LED Hijau (Jalan):</strong> Anoda (+) ke <code>D1</code> &bull; Katoda (-) ke <code>GND</code></div>
+                            </div>
+                            <ul class="small ps-3 text-secondary mb-0">
+                                <li>Saat D1 = <strong>LOW (0V)</strong>: Arus mengalir dari 3.3V ke D1 &rarr; <strong>LED Merah Menyala</strong>, Hijau Padam.</li>
+                                <li>Saat D1 = <strong>HIGH (3.3V)</strong>: Arus mengalir dari D1 ke GND &rarr; <strong>LED Hijau Menyala</strong>, Merah Padam.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Buzzer Table -->
+                    <div class="col-12 col-md-6">
+                        <div class="custom-card p-4 h-100">
+                            <h6 class="fw-bold text-dark d-flex align-items-center gap-2 mb-2">
+                                <i class="bi bi-volume-up-fill text-danger"></i>
+                                <span>Tabel Arti Pola Nada Suara Buzzer</span>
+                            </h6>
+                            <p class="small text-muted mb-3">
+                                Buzzer berfungsi sebagai konfirmasi akustik agar pengendara tahu status gerbang tanpa melihat layar:
+                            </p>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered font-mono small mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Pola Bunyi</th>
+                                            <th>Arti / Pemicu Sistem</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="badge bg-secondary">1x Bip (50ms)</span></td>
+                                            <td>Booting alat sukses / Self-test</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge bg-success">2x Bip (200ms)</span></td>
+                                            <td>Sukses Terhubung ke Wi-Fi Router</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge bg-info text-dark">1x Bip (40ms)</span></td>
+                                            <td>Kartu RFID menyentuh antena</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge bg-warning text-dark">1x Panjang (500ms)</span></td>
+                                            <td>Kartu belum terdaftar / Masa cooldown</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge bg-danger">3x Bip Cepat</span></td>
+                                            <td>Akses Ditolak (Saldo Kurang)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge bg-dark text-danger">5x Bip Cepat</span></td>
+                                            <td>Koneksi Laptop/Laravel Offline</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ============================================================= -->
+            <!-- TAB 3: BEDAH KODE FIRMWARE ESP8266 -->
+            <!-- ============================================================= -->
+            <div class="tab-pane fade" id="tab-firmware" role="tabpanel">
+                
+                <div class="custom-card p-4 mb-4">
+                    <h5 class="fw-bold text-primary mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-code-square"></i>
+                        <span>Bedah Algoritma Penting di Firmware (`esp8266_gate_ap.ino`)</span>
+                    </h5>
+
+                    <!-- Algoritma 1: Non-Blocking Millis -->
+                    <div class="mb-4 pb-3 border-bottom">
+                        <h6 class="fw-bold text-dark d-flex align-items-center gap-2">
+                            <span class="badge bg-primary rounded-circle">1</span>
+                            <span>Manajemen Waktu Non-Blocking (`millis()`) vs `delay()`</span>
+                        </h6>
+                        <p class="small text-muted mb-2">
+                            <strong>Pertanyaan Dosen:</strong> <em>"Kenapa palang pintu parkir tidak memakai perintah <code>delay(8000)</code> saat membuka?"</em>
+                        </p>
+                        <div class="p-3 bg-light rounded-3 mb-2 small text-secondary">
+                            <strong>Jawaban Ketua:</strong> Jika kita memakai <code>delay(8000)</code>, prosesor ESP8266 akan membeku (*freeze*) selama 8 detik penuh! Selama 8 detik itu, jika ada perintah darurat dari web admin, atau ada kartu lain yang ditempelkan, atau request HTTP dari browser masuk, semuanya akan macet dan mengalami <em>timeout</em>.<br>
+                            Maka dari itu, kami menggunakan perbandingan waktu milidetik non-blocking:
+                        </div>
+                        <pre class="bg-dark text-white p-3 rounded-3 mb-0"><code class="language-cpp">// Simpan waktu kapan palang dibuka
+openGateInStartTime = millis();
+gateInOpenDuration  = 8000; // 8 detik
+
+// Di dalam fungsi loop() yang berputar ribuan kali per detik:
+if (isGateInOpen && (millis() - openGateInStartTime >= gateInOpenDuration)) {
+    closeGateIn(); // Tutup setelah 8 detik tanpa membuat CPU macet!
+}</code></pre>
+                    </div>
+
+                    <!-- Algoritma 2: Anti-Jitter Servo Detach -->
+                    <div class="mb-4 pb-3 border-bottom">
+                        <h6 class="fw-bold text-dark d-flex align-items-center gap-2">
+                            <span class="badge bg-primary rounded-circle">2</span>
+                            <span>Pergerakan Halus Servo & Anti-Jitter (`detach()`)</span>
+                        </h6>
+                        <p class="small text-muted mb-2">
+                            Servo mini SG90 sangat rentan bergetar liar (*jitter*) akibat induksi elektromagnetik dari pemancar radio Wi-Fi ESP8266.
+                        </p>
+                        <pre class="bg-dark text-white p-3 rounded-3 mb-0"><code class="language-cpp">void moveServoSmoothSingle(Servo &servo, int pin, int fromAngle, int toAngle, bool reverse) {
+  // Naik atau turun 3 derajat setiap 6ms (Gerakan realistis seperti palang asli)
+  int step = (toAngle > fromAngle) ? 3 : -3;
+  for (int pos = fromAngle; pos != toAngle; pos += step) {
+    servo.write(mapPhysicalAngle(pos, reverse));
+    delay(6);
+  }
+  servo.write(mapPhysicalAngle(toAngle, reverse));
+  delay(120);
+
+  // TRIK ANTI-JITTER: Jika palang sudah tertutup (0°), matikan sinyal PWM!
+  if (DETACH_SERVO_IDLE && toAngle == ANGLE_CLOSED) {
+    servo.detach();            // Lepaskan sinyal kontrol servo
+    digitalWrite(pin, LOW);    // Ground-kan pin agar servo dingin & tidak bergetar
+  }
+}</code></pre>
+                    </div>
+
+                    <!-- Algoritma 3: Auto-Recovery SPI RFID -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold text-dark d-flex align-items-center gap-2">
+                            <span class="badge bg-primary rounded-circle">3</span>
+                            <span>Auto-Recovery Modul RFID RC522 (Anti-Goyang Kabel)</span>
+                        </h6>
+                        <p class="small text-muted mb-2">
+                            Jika kabel jumper RC522 sempat tersenggol atau longgar, register chip SPI bisa hilang koneksi (terbaca <code class="font-mono">0x00</code> atau <code class="font-mono">0xFF</code>). Firmware ini memonitor kesehatannya setiap 6 detik:
+                        </p>
+                        <pre class="bg-dark text-white p-3 rounded-3 mb-0"><code class="language-cpp">static unsigned long lastRfidHealthCheck = 0;
+if (millis() - lastRfidHealthCheck >= 6000) {
+  lastRfidHealthCheck = millis();
+  byte ver = rfid.PCD_ReadRegister(rfid.VersionReg);
+  if (ver == 0x00 || ver == 0xFF) {
+    // Terjadi error hardware! Re-inisialisasi bus SPI secara otomatis tanpa restart alat
+    SPI.begin();
+    rfid.PCD_Init();
+    rfid.PCD_AntennaOn();
+  }
+}</code></pre>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ============================================================= -->
+            <!-- TAB 4: REST API & PRINTER THERMAL -->
+            <!-- ============================================================= -->
+            <div class="tab-pane fade" id="tab-rest" role="tabpanel">
+                
+                <div class="custom-card p-4 mb-4">
+                    <h5 class="fw-bold text-primary mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-hdd-network-fill"></i>
+                        <span>Komunikasi REST API & Integrasi Printer Thermal USB</span>
+                    </h5>
+
+                    <!-- REST API Table -->
+                    <h6 class="fw-bold text-dark mb-2">1. Endpoint REST API Internal ESP8266 (Port 80)</h6>
+                    <p class="small text-muted mb-3">ESP8266 menjalankan web server HTTP internal yang dapat ditembak langsung oleh web browser laptop secara instan:</p>
+
+                    <div class="table-responsive mb-4">
+                        <table class="table table-bordered table-sm font-mono small mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Endpoint</th>
+                                    <th>Fungsi & Parameter</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge bg-primary">GET</span></td>
+                                    <td><code>/api/status</code></td>
+                                    <td>Mengecek konektivitas, IP ESP, status palang, dan versi firmware.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-success">GET</span></td>
+                                    <td><code>/api/open?gate=in&duration=8000</code></td>
+                                    <td>Membuka palang masuk selama 8 detik. Tambahkan <code>&hold=1</code> untuk Mode Darurat.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-danger">GET</span></td>
+                                    <td><code>/api/close?gate=both</code></td>
+                                    <td>Menutup semua palang seketika dan mereset status darurat.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-warning text-dark">GET</span></td>
+                                    <td><code>/api/ticket</code></td>
+                                    <td>Memicu pembuatan karcis barcode masuk dan membuka palang 10 detik.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-info text-dark">GET</span></td>
+                                    <td><code>/api/set_backend?ip=192.168.4.158</code></td>
+                                    <td>Mengubah alamat IP laptop server Laravel secara dinamis tanpa flash ulang!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Thermal Printer USB Technical Details -->
+                    <h6 class="fw-bold text-dark mb-2">2. Arsitektur Cetak Struk USB (POS-58) Anti-Acak-Acakan</h6>
+                    <div class="row g-3">
+                        <div class="col-12 col-lg-6">
+                            <div class="p-3 bg-light rounded-3 border h-100 small">
+                                <h6 class="fw-bold text-danger mb-1"><i class="bi bi-x-circle-fill me-1"></i>Kelemahan Cara Lama (PowerShell Out-Printer)</h6>
+                                <p class="text-muted mb-0">
+                                    Perintah standar Windows menerapkan ukuran kertas <strong>Letter (8.5 x 11 inci)</strong> dengan margin kiri 1 inci. Akibatnya, pada kertas mini 58mm teks bergeser ke kanan dan terlipat acak-acakan (*word wrap* berantakan).
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="p-3 bg-light rounded-3 border h-100 small">
+                                <h6 class="fw-bold text-success mb-1"><i class="bi bi-check-circle-fill me-1"></i>Solusi Tim Kita: Direct RAW Win32 Spooler</h6>
+                                <p class="text-muted mb-0">
+                                    Kita menggunakan skrip C# P/Invoke (<code class="font-mono">print_raw.ps1</code>) yang memanggil Win32 API <code>WritePrinter</code> dengan Datatype <strong>"RAW"</strong>. Data byte ESC/POS langsung ditembakkan ke port <code>USB001</code> tanpa margin driver Windows sama sekali!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ============================================================= -->
+            <!-- TAB 5: SIMULASI TANYA JAWAB SIDANG DOSEN -->
+            <!-- ============================================================= -->
+            <div class="tab-pane fade" id="tab-qa" role="tabpanel">
+                
+                <div class="custom-card p-4 mb-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+                        <div>
+                            <h5 class="fw-bold mb-1 text-primary d-flex align-items-center gap-2">
+                                <i class="bi bi-patch-question-fill"></i>
+                                <span>Simulasi Sidang & Tanya Jawab Dosen Penguji</span>
+                            </h5>
+                            <p class="text-muted small mb-0">Klik kartu di bawah ini untuk melihat jawaban jitu yang wajib Anda sampaikan sebagai ketua.</p>
+                        </div>
+                        <span class="badge bg-danger-subtle text-danger">Wajib Dikuasai</span>
+                    </div>
+
+                    <!-- QA Item 1 -->
+                    <div class="custom-card p-3 mb-3 qa-card border" onclick="toggleQA(this)">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h6 class="fw-bold mb-0 text-dark">
+                                <span class="badge bg-primary me-2">Q1</span>
+                                Kenapa memilih arsitektur HTTP REST API dibanding MQTT?
+                            </h6>
+                            <i class="bi bi-chevron-down text-muted qa-icon transition-all"></i>
+                        </div>
+                        <div class="qa-answer pt-3 border-top mt-3 small text-secondary">
+                            <strong>Jawaban Ketua:</strong><br>
+                            <em>"Kami memilih HTTP REST API karena sistem parkir kami menggunakan pola komunikasi <strong>Request-Response yang sifatnya transaksional dan langsung (*point-to-point*)</strong>. Berbeda dengan sistem pemantauan cuaca yang memerlukan publish data sensor terus menerus ke banyak subscriber, gerbang parkir hanya berkomunikasi saat ada kejadian tap kartu atau tombol karcis ditekan. Dengan REST API, sistem kami bersifat <strong>Brokerless</strong> (tidak butuh server MQTT broker tambahan seperti Mosquitto), sehingga arsitektur lebih ringkas, hemat memori RAM laptop, dan latensinya di bawah 50 milidetik pada jaringan lokal."</em>
+                        </div>
+                    </div>
+
+                    <!-- QA Item 2 -->
+                    <div class="custom-card p-3 mb-3 qa-card border" onclick="toggleQA(this)">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h6 class="fw-bold mb-0 text-dark">
+                                <span class="badge bg-primary me-2">Q2</span>
+                                Bagaimana jika dua kendaraan masuk beriringan menggunakan satu kartu member yang sama?
+                            </h6>
+                            <i class="bi bi-chevron-down text-muted qa-icon transition-all"></i>
+                        </div>
+                        <div class="qa-answer pt-3 border-top mt-3 small text-secondary">
+                            <strong>Jawaban Ketua:</strong><br>
+                            <em>"Sistem kami memiliki proteksi <strong>Anti-Passback sederhana</strong> pada level database Laravel. Ketika kartu pertama kali di-tap masuk, status kendaraan dicatat sebagai <code>'IN'</code> di tabel transaksi aktif. Jika kartu yang sama di-tap lagi di gerbang masuk sebelum melakukan tap keluar, Laravel otomatis menolak akses dengan respons <code>'DENIED: Kendaraan Anda sudah berada di dalam area parkir'</code>, buzzer berbunyi nada penolakan, dan palang tidak akan membuka."</em>
+                        </div>
+                    </div>
+
+                    <!-- QA Item 3 -->
+                    <div class="custom-card p-3 mb-3 qa-card border" onclick="toggleQA(this)">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h6 class="fw-bold mb-0 text-dark">
+                                <span class="badge bg-primary me-2">Q3</span>
+                                Bagaimana jika terjadi bencana alam, kebakaran, atau mati listrik darurat?
+                            </h6>
+                            <i class="bi bi-chevron-down text-muted qa-icon transition-all"></i>
+                        </div>
+                        <div class="qa-answer pt-3 border-top mt-3 small text-secondary">
+                            <strong>Jawaban Ketua:</strong><br>
+                            <em>"Sistem kami dilengkapi tombol <strong>Mode Darurat: Buka Semua (Emergency Hold)</strong> pada dashboard admin. Saat tombol ditekan, ESP8266 menerima parameter <code>hold=1</code> yang mengangkat kedua palang masuk dan keluar secara bersamaan ke posisi 90° dan <strong>menghentikan seluruh timer penutup otomatis</strong>. Palang akan tetap tertahan terbuka selamanya untuk evakuasi kendaraan, hingga admin secara sadar menekan tombol 'Tutup Semua'."</em>
+                        </div>
+                    </div>
+
+                    <!-- QA Item 4 -->
+                    <div class="custom-card p-3 mb-3 qa-card border" onclick="toggleQA(this)">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h6 class="fw-bold mb-0 text-dark">
+                                <span class="badge bg-primary me-2">Q4</span>
+                                Bagaimana sistem mengelola kapasitas slot parkir bertingkat?
+                            </h6>
+                            <i class="bi bi-chevron-down text-muted qa-icon transition-all"></i>
+                        </div>
+                        <div class="qa-answer pt-3 border-top mt-3 small text-secondary">
+                            <strong>Jawaban Ketua:</strong><br>
+                            <em>"Kapasitas total sistem disetel sebanyak 20 kendaraan (10 slot di Lantai 1 dan 10 slot di Lantai 2). Setiap ada tap masuk atau karcis dicetak, algoritma sistem memprioritaskan alokasi slot kosong di Lantai 1 terlebih dahulu hingga penuh (10/10), lalu mengarahkan sisa kendaraan ke Lantai 2. Jika seluruh 20 slot telah terisi penuh, server otomatis menolak setiap permintaan tiket baru di gerbang masuk."</em>
+                        </div>
+                    </div>
+
+                    <!-- QA Item 5 -->
+                    <div class="custom-card p-3 mb-3 qa-card border" onclick="toggleQA(this)">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h6 class="fw-bold mb-0 text-dark">
+                                <span class="badge bg-primary me-2">Q5</span>
+                                Apa yang terjadi jika router Wi-Fi sempat mati atau terputus?
+                            </h6>
+                            <i class="bi bi-chevron-down text-muted qa-icon transition-all"></i>
+                        </div>
+                        <div class="qa-answer pt-3 border-top mt-3 small text-secondary">
+                            <strong>Jawaban Ketua:</strong><br>
+                            <em>"ESP8266 dikonfigurasi dengan fitur <code>WiFi.setAutoReconnect(true)</code> dan <code>WiFi.setSleepMode(WIFI_NONE_SLEEP)</code>. Ketika koneksi terputus, mikrokontroler akan mencoba menyambung kembali di latar belakang tanpa me-restart dirinya sendiri. Dan jika pengendara menempelkan kartu saat offline, ESP membunyikan nada 5x bip cepat sebagai peringatan bahwa sistem jaringan sedang terputus, dan palang tetap tertutup demi keamanan area parkir."</em>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ============================================================= -->
+            <!-- TAB 6: CHEATSHEET 5 MENIT -->
+            <!-- ============================================================= -->
+            <div class="tab-pane fade" id="tab-cheat" role="tabpanel">
+                
+                <div class="custom-card p-4 mb-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+                        <h5 class="fw-bold mb-0 text-warning d-flex align-items-center gap-2">
+                            <i class="bi bi-lightning-charge-fill"></i>
+                            <span>Cheatsheet 5 Menit: Ringkasan Hafalan Sebelum Masuk Ruang Sidang</span>
+                        </h5>
+                        <span class="badge bg-warning text-dark font-mono">Quick Memorization</span>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="p-3 bg-light rounded-3 border h-100">
+                                <h6 class="fw-bold text-primary small mb-1">Kapasitas & Tarif</h6>
+                                <ul class="small ps-3 text-secondary mb-0">
+                                    <li>Total Kapasitas: <strong>20 Mobil</strong></li>
+                                    <li>Lantai 1: 10 slot | Lantai 2: 10 slot</li>
+                                    <li>Tarif: <strong>Rp 2.000 / Jam</strong></li>
+                                    <li>Pembulatan: Ke atas (Ceil)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="p-3 bg-light rounded-3 border h-100">
+                                <h6 class="fw-bold text-info small mb-1">Konfigurasi Jaringan</h6>
+                                <ul class="small ps-3 text-secondary mb-0">
+                                    <li>SSID Router: <code class="font-mono">Day One</code></li>
+                                    <li>Pass: <code class="font-mono">error0110</code></li>
+                                    <li>IP ESP Default: <code class="font-mono">192.168.4.201</code></li>
+                                    <li>IP Laptop Server: <code class="font-mono">192.168.4.158</code></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="p-3 bg-light rounded-3 border h-100">
+                                <h6 class="fw-bold text-success small mb-1">Pinout Utama ESP</h6>
+                                <ul class="small ps-3 text-secondary mb-0">
+                                    <li>RFID SPI: <strong>D5, D6, D7, D8, D0</strong></li>
+                                    <li>Servo In / Out: <strong>D3 / D4</strong></li>
+                                    <li>LED In / Out: <strong>D1 / D2</strong></li>
+                                    <li>Buzzer / Button: <strong>RX / TX</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="p-3 bg-light rounded-3 border h-100">
+                                <h6 class="fw-bold text-danger small mb-1">Printer USB POS-58</h6>
+                                <ul class="small ps-3 text-secondary mb-0">
+                                    <li>Format: <strong>28 Kolom Presisi</strong></li>
+                                    <li>Titik Dua (:): <strong>Rata Vertikal</strong></li>
+                                    <li>Metode: <strong>Win32 RAW Stream</strong></li>
+                                    <li>Port: <strong>USB001 (Thermal)</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info mt-4 mb-0 d-flex align-items-center gap-3">
+                        <i class="bi bi-info-circle-fill fs-3"></i>
+                        <div class="small">
+                            <strong>Tips Pembagian Tugas Demo Kelompok Sigma Boys:</strong><br>
+                            &bull; <strong>Ketua (Anda):</strong> Membuka presentasi, menjelaskan arsitektur & konsep bisnis, dan menjawab pertanyaan teoritis dosen.<br>
+                            &bull; <strong>Anggota 1 & 2:</strong> Memegang prototipe hardware gerbang, men-tap kartu RFID, dan menekan tombol karcis fisik.<br>
+                            &bull; <strong>Anggota 3 & 4:</strong> Mengoperasikan layar laptop (Dashboard Admin, Simulator Gerbang, dan Printer POS-58).
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-4 text-center text-muted small border-top bg-white">
+        <div class="container">
+            <strong>E-Parkir Industrial IoT System &bull; Kelompok Sigma Boys</strong><br>
+            Fardhan &bull; Fauzan &bull; Haikal &bull; Randy &bull; Krisna | Dokumentasi Resmi 2026
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5.3 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Toggle Dark/Light Mode
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-bs-theme', newTheme);
+            
+            const icon = document.getElementById('themeIcon');
+            const text = document.getElementById('themeText');
+            if (newTheme === 'dark') {
+                icon.className = 'bi bi-sun-fill';
+                text.textContent = 'Mode Terang';
+            } else {
+                icon.className = 'bi bi-moon-stars-fill';
+                text.textContent = 'Mode Gelap';
+            }
+        }
+
+        // Toggle Interactive QA Accordion
+        function toggleQA(cardEl) {
+            cardEl.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>
